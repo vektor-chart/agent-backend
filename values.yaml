@@ -1,0 +1,95 @@
+# Default values.yaml for agent-backend
+dockerRegistry: ghcr.io
+imagePullSecrets: regkey
+
+applicationName: agent-backend
+namespace: observability
+replicaCount: 1
+
+image:
+  name: vektor-code/agent-backend
+  tag: prod-latest
+  pullPolicy: IfNotPresent
+
+secrets:
+  enabled: false
+  data: []
+
+configmaps:
+  enabled: false
+
+terminationGracePeriodSeconds: 30
+
+ports:
+  enabled: true
+  containerPort: 4317
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 4317
+
+hostsfile:
+  enabled: false
+  records: []
+
+strategy:
+  enabled: true
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+minReadySeconds: 5
+revisionHistoryLimit: 3
+
+hpa:
+  enabled: false
+
+resources:
+  enabled: true
+  limits:
+    memory: 512Mi
+    cpu: 0.5
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Disable HTTP probes as this is a gRPC service
+readinessProbe:
+  enabled: false
+
+livenessProbe:
+  enabled: false
+
+istio:
+  enabled: false
+
+ingress:
+  enabled: false
+
+env:
+  - name: GRPC_ADDR
+    value: "0.0.0.0:4317"
+  - name: CENTRAL_URL
+    value: "http://api-backend.observability.svc.cluster.local:8080/v1/traces"
+  - name: BUFFER_DIR
+    value: "/app/buffer"
+  - name: QUEUE_LIMIT
+    value: "1000"
+  - name: DISK_LIMIT_FILES
+    value: "5000"
+  - name: TZ
+    value: UTC
+
+hostpathVolume:
+  enabled: false
+
+volumeMounts:
+  enabled: false
+
+nameOverride: ""
+fullnameOverride: ""
+podSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
