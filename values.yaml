@@ -3,7 +3,7 @@ dockerRegistry: ghcr.io
 imagePullSecrets: regkey
 
 applicationName: agent-backend
-namespace: observability
+namespace: vektor-prod
 replicaCount: 1
 
 image:
@@ -71,7 +71,7 @@ env:
   - name: GRPC_ADDR
     value: "0.0.0.0:4317"
   - name: CENTRAL_URL
-    value: "http://api-backend.observability.svc.cluster.local:8080/v1/traces"
+    value: "http://api-backend.vektor-prod.svc.cluster.local:8080/v1/traces"
   - name: BUFFER_DIR
     value: "/app/buffer"
   - name: QUEUE_LIMIT
