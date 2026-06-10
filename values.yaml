@@ -1,38 +1,29 @@
 # Default values.yaml for agent-backend
 dockerRegistry: ghcr.io
 imagePullSecrets: regkey
-
 applicationName: agent-backend
 namespace: vektor-prod
 replicaCount: 1
-
 image:
   name: vektor-code/agent-backend
-  tag: prod-latest
+  tag: prod-9d453ae
   pullPolicy: IfNotPresent
-
 secrets:
   enabled: false
   data: []
-
 configmaps:
   enabled: false
-
 terminationGracePeriodSeconds: 30
-
 ports:
   enabled: true
   containerPort: 4317
-
 service:
   enabled: true
   type: ClusterIP
   port: 4317
-
 hostsfile:
   enabled: false
   records: []
-
 strategy:
   enabled: true
   type: RollingUpdate
@@ -41,10 +32,8 @@ strategy:
     maxSurge: 1
 minReadySeconds: 5
 revisionHistoryLimit: 3
-
 hpa:
   enabled: false
-
 resources:
   enabled: true
   limits:
@@ -53,20 +42,15 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
 # Disable HTTP probes as this is a gRPC service
 readinessProbe:
   enabled: false
-
 livenessProbe:
   enabled: false
-
 istio:
   enabled: false
-
 ingress:
   enabled: false
-
 env:
   - name: GRPC_ADDR
     value: "0.0.0.0:4317"
@@ -80,13 +64,10 @@ env:
     value: "5000"
   - name: TZ
     value: UTC
-
 hostpathVolume:
   enabled: false
-
 volumeMounts:
   enabled: false
-
 nameOverride: ""
 fullnameOverride: ""
 podSecurityContext: {}
